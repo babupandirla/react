@@ -1,7 +1,11 @@
 import React,{Component } from 'react';
 import { robots } from './robots.js';
-import Cardlist from './Cardlist.js';
+//import Cardlist from './Cardlist.js';
 import Searchbar from './Searchbar.js';
+//import Test from './Test.js';
+//import hooks from './hook.js';
+//import Hooks from './hook.js';
+import Users from './Users.js';
 
 class App extends Component { 
     constructor(){
@@ -24,13 +28,19 @@ class App extends Component {
             <div className="tc">
                 <div>
                     <h1>
-                        RoboFriends
+                       {// RoboFriends
+                       }
                     </h1>
                     <div>
                     <Searchbar searchchange={this.onsearchchange}/>
                     </div>
                 </div>
-                <Cardlist robots={filteredlist}/>
+                {//<Cardlist robots={filteredlist}/>
+                }
+                {//<Test name="Chamcham"/>
+                //<Hooks/>
+                }
+                <Users />
             </div>
         );
     }
