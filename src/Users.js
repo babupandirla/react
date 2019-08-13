@@ -7,7 +7,9 @@ function Users(){
         {
             Header: "Index",
             accessor: "index",
-            sortable:false
+            sortable:false,
+            maxwidth:100,
+            width:100
         },
         {
             Header: "FullName",
@@ -19,12 +21,23 @@ function Users(){
         },
         {
             Header: "UserId",
-            accessor: "id"
+            accessor: "id",
+            maxwidth:100,
+            width:100
         },
         {
             Header: "Actions",
-            accessor: "actions",
             sortable:false,
+            Cell:props=>{
+                return(
+                <div>
+                <button>Edit</button>&nbsp;
+                <button>Delete</button>
+                </div>
+                )
+            },
+            maxwidth:200,
+            width:150
         }
     ];
     const users=[
@@ -48,6 +61,7 @@ function Users(){
             <ReactTable
             columns={columns}
             data={users}
+            defaultPageSize={5}
             >
             </ReactTable>
         </div>
