@@ -6,10 +6,11 @@ import Searchbar from './Searchbar.js';
 //import hooks from './hook.js';
 import Hooks from './hook.js';
 import Users from './Users.js';
+import Navbar from './Navbar.js';
 
 class App extends Component { 
     constructor(){
-        super();
+        super();    
         this.state={
             robots:robots,
             searchfiled:'',
@@ -48,6 +49,9 @@ class App extends Component {
         }
         return(
         <div className="tc">
+            <div>
+            <Navbar/>
+            </div>
             <h1>RoboFriends</h1>
             <button type="button" onClick={this.switchview}>Switch View</button>
             <div>

@@ -1,0 +1,12 @@
+.lastinput label{
+    width:20%;
+    align-content: flex-start;
+
+}
+.lastinput input{
+    width:30%;
+    align-content:flex-end;
+}
+.lastinput{
+    display: flex;
+}
