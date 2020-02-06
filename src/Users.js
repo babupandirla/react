@@ -75,6 +75,23 @@ class Users extends Component{
     }
     
 render(){
+    let myheader={
+        "Content-Type": 'application/json',
+        "Authorization": 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTU3ODE1MDQ3OCwiaWF0IjoxNTc4MTMyNDc4fQ.GntIvtlgiR8fYpg0u2qS3-S9gb4jM0eGFSNE8hIP2XBRr-ijWpg0ZeQOtZbK7LtRinxtbBjH0HtYtJmTlaKs6w'
+    }
+    try {
+        const response =fetch('http://localhost:8080/Users',{
+          method: "GET", 
+          headers:myheader
+        }).then(response=>{
+            if(response.status==200){
+                const json =response.json();
+                console.log('Success:', JSON.stringify(json)); 
+            }
+            });       
+      } catch (error) {
+        console.error('Error in hitting auth Api:', error);
+      }
     if(this.props.name){
         const user={
             index:this.state.users.length+1,
@@ -98,6 +115,7 @@ render(){
         );
     }
     return(
+        
         <div>
             <ReactTable
             columns={this.state.columns}

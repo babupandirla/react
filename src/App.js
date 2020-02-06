@@ -14,7 +14,7 @@ class App extends Component {
         this.state={
             robots:robots,
             searchfiled:'',
-            view:"Table"
+            view:"Robot"
         }
     }
     onsearchchange=(event)=>{
