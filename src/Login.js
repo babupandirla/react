@@ -24,7 +24,7 @@ class Login extends Component{
                 'Content-Type': 'application/json'
               },body: JSON.stringify({ username: this.state.username,password:this.state.password})
             }).then(response=>{
-                if(response.status==200){
+                if(response.status===200){
                    this.setState({isValid:true})
                 }
                 const json =response.json();
@@ -43,7 +43,7 @@ class Login extends Component{
     }
 
     render(){
-        if(this.state.isValid==true){
+        if(this.state.isValid===true){
             return(
                 <div>
                 <App />

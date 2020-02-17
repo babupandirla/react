@@ -84,7 +84,7 @@ render(){
           method: "GET", 
           headers:myheader
         }).then(response=>{
-            if(response.status==200){
+            if(response.status===200){
                 const json =response.json();
                 console.log('Success:', JSON.stringify(json)); 
             }
