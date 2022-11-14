@@ -23,6 +23,13 @@ class Users extends Component{
                     email:"ramu@abc.com",
                     id:2,
                     actions:""
+                },
+                {
+                    index:3,
+                    fname:"Mural",
+                    email:"mural@abc.com",
+                    id:3,
+                    actions:""
                 }
             ],
             columns:[
@@ -72,6 +79,25 @@ class Users extends Component{
 
  adduser=(e)=>{
         this.setState({userform:true});
+    }
+    fetchdata=(event)=> {
+        console.log("fetching the userList from DB");
+        try {
+            const response =fetch('http://localhost:8080/Users', {
+              method: "GET", // or 'PUT'
+               // data can be `string` or {object}!
+              headers: {
+                'Authorization': 'Bearer'
+              }
+            }).then(response=>{
+                if(response.status===200){
+                   this.setState({isValid:true})
+                }
+                const json =response.json();
+                console.log('Success:', JSON.stringify(json));});       
+          } catch (error) {
+            console.error('Error while fetching the users:', error);
+          }
     }
     
 render(){
