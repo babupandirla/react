@@ -9,6 +9,7 @@ import Hooks from '../hook.js';
 import Users from '../Users.js';
 import Navbar from './Navbar.js';
 import Login from './Login.js';
+import ErrorBoundary from './ErrorBoundary.js';
 
 class App extends Component { 
     constructor()
@@ -68,7 +69,10 @@ class App extends Component {
                         <Searchbar searchchange={this.onsearchchange}/>
                     </div>
                     <Scroll className='pa3 ma3'>
-                    <Cardlist robots={filteredlist}/>
+                        <ErrorBoundary>
+                            <Cardlist robots={filteredlist}/>
+                        </ErrorBoundary>
+                        
                     </Scroll>
                     
                     

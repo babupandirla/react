@@ -6,14 +6,15 @@ import './index.css';
 import 'tachyons';
 import App from './components/App.js';
 import * as serviceWorker from './serviceWorker';
-import Login from './Login.js';
+import { combineReducers } from 'redux';
+import Login from './components/Login.js';
 //import Testmap from './Test.js';
 //const list1=[1,3,5,7,4,8];
 
 
-const rootReducer=combineReducers({searchRobots,requestRobtos})
-const logger=createLogger(); 
-const store = createStore(rootReducer,applyMiddleware(thunkmiddileware,logger)) 
+// const rootReducer=combineReducers({searchRobots,requestRobtos})
+// const logger=createLogger(); 
+// const store = createStore(rootReducer,applyMiddleware(thunkmiddileware,logger)) 
 
 ReactDOM.render(
     <div>

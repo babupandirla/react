@@ -10,19 +10,23 @@ class Login extends Component{
         this.state={
             username:"",
             password:"",
-            isValid:false
+            isValid:true
         }
 
     }
     fetchdata=(event)=> {
         console.log({ username: this.state.username,password:this.state.password });
         try {
-            const response =fetch('http://localhost:8080/authenticate', {
+            const response =
+            fetch('http://localhost:8080/authenticate', 
+            {
               method: "POST", // or 'PUT'
                // data can be `string` or {object}!
               headers: {
                 'Content-Type': 'application/json'
-              },body: JSON.stringify({ username: this.state.username,password:this.state.password})
+              },body: JSON.stringify(
+                { username: this.state.username,
+                password:this.state.password})
             }).then(response=>{
                 if(response.status===200){
                    this.setState({isValid:true})
