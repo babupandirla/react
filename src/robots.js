@@ -60,3 +60,26 @@ export const robots = [
     email: 'Rey.Padberg@karina.biz'
   }
 ];
+export const users=[
+  {
+    index:1,
+    fname:"Babu",
+    email:"Pandirla@abc.com",
+    id:1,
+    actions:""
+},
+{
+    index:2,
+    fname:"Ramu",
+    email:"ramu@abc.com",
+    id:2,
+    actions:""
+},
+{
+    index:3,
+    fname:"Mural",
+    email:"mural@abc.com",
+    id:3,
+    actions:""
+}
+];

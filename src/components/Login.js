@@ -10,14 +10,14 @@ class Login extends Component{
         this.state={
             username:"",
             password:"",
-            isValid:true
+            isValid:""
         }
 
     }
     fetchdata=(event)=> {
-        console.log({ username: this.state.username,password:this.state.password });
+        // console.log({ username: this.state.username,password:this.state.password });
         try {
-            const response =
+            
             fetch('http://localhost:8080/authenticate', 
             {
               method: "POST", // or 'PUT'
@@ -27,37 +27,35 @@ class Login extends Component{
               },body: JSON.stringify(
                 { username: this.state.username,
                 password:this.state.password})
-            }).then(response=>{
-                if(response.status===200){
-                   this.setState({isValid:true})
-                }
-                const json =response.json();
-                console.log('Success:', JSON.stringify(json));});       
+            }).then((response)=>response.json()).then(data=>{
+                this.setState({isValid:data});
+            });       
           } catch (error) {
             console.error('Error in hitting auth Api:', error);
           }
+        
     }
     setemail=(event)=>{
         this.setState({username:event.target.value});
-        console.log(event.target.value);
+        // console.log(event.target.value);
     }
     setpass=(event)=>{
         this.setState({password:event.target.value});
-        console.log(event.target.value);
+        // console.log(event.target.value);
     }
 
     render(){
-        if(this.state.isValid===true){
+        if(this.state.isValid){
             return(
                 <div>
-                <App />
+                <App token={this.state.isValid}/>
                 </div>
             );
         }
         else{
 
         return(
-            <div className="tc">
+            <div className="tc pa5 ma10">
                 <div className="lastinput">
                     <label>Username:</label>
                     <input type="text" placeholder="Enter Your Email id" id="username" onBlur={this.setemail}/>

@@ -4,153 +4,146 @@ import ReactTable from "react-table";
 import "react-table/react-table.css";
 import Userform from "./Userform"
 
-class Users extends Component{
-    constructor(props){
+class Users extends Component {
+    constructor(props) {
         super(props);
-        this.state={
-            userform:false,
-            users:[
+        this.state = {
+            userform: false,
+            token: this.props.token,
+            users: [
                 {
-                    index:1,
-                    fname:"Babu",
-                    email:"Pandirla@abc.com",
-                    id:1,
-                    actions:""
+                    full_name: "Babu",
+                    email: "Pandirla@abc.com",
+                    user_id: 1,
+                    roles:"",
+                    username:"",
+                    actions: ""
                 },
                 {
-                    index:2,
-                    fname:"Ramu",
-                    email:"ramu@abc.com",
-                    id:2,
-                    actions:""
+                    full_name: "Ramu",
+                    email: "ramu@abc.com",
+                    user_id: 2,
+                    roles:"",
+                    username:"",
+                    actions: ""
                 },
                 {
-                    index:3,
-                    fname:"Mural",
-                    email:"mural@abc.com",
-                    id:3,
-                    actions:""
+                    full_name: "Mural",
+                    email: "mural@abc.com",
+                    user_id: 3,
+                    roles:"",
+                    username:"",
+                    actions: ""
                 }
             ],
-            columns:[
+            columns: [
                 {
-                    Header: "Index",
-                    accessor: "index",
-                    sortable:false,
-                    maxwidth:100,
-                    width:100
+                    Header: "UserId",
+                    accessor: "userId",
+                    sortable:true,
+                    maxwidth: 100,
+                    width: 100
+                },
+                {
+                    Header: "UserName",
+                    accessor: "username"
                 },
                 {
                     Header: "FullName",
-                    accessor: "fname"
+                    accessor: "fullName"
                 },
                 {
                     Header: "Email",
                     accessor: "email"
                 },
                 {
-                    Header: "UserId",
-                    accessor: "id",
-                    maxwidth:100,
-                    width:100
-                },
+                    Header: "Roles",
+                    accessor: "roles"
+                },  
                 {
                     Header: "Actions",
-                    sortable:false,
-                    Cell:props=>{
-                        return(
-                        <div>
-                        <button>Edit</button>&nbsp;
-                        <button>Delete</button>
-                        </div>
+                    sortable: false,
+                    Cell: props => {
+                        return (
+                            <div>
+                                <button>Edit</button>&nbsp;
+                                <button>Delete</button>
+                            </div>
                         )
                     },
-                    maxwidth:200,
-                    width:150
+                    maxwidth: 200,
+                    width: 150
                 }
             ]
-        }   
-    }
-/*
-*/
- 
-    
-
-
- adduser=(e)=>{
-        this.setState({userform:true});
-    }
-    fetchdata=(event)=> {
-        console.log("fetching the userList from DB");
-        try {
-            const response =fetch('http://localhost:8080/Users', {
-              method: "GET", // or 'PUT'
-               // data can be `string` or {object}!
-              headers: {
-                'Authorization': 'Bearer'
-              }
-            }).then(response=>{
-                if(response.status===200){
-                   this.setState({isValid:true})
-                }
-                const json =response.json();
-                console.log('Success:', JSON.stringify(json));});       
-          } catch (error) {
-            console.error('Error while fetching the users:', error);
-          }
-    }
-    
-render(){
-    let myheader={
-        "Content-Type": 'application/json',
-        "Authorization": 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTU3ODE1MDQ3OCwiaWF0IjoxNTc4MTMyNDc4fQ.GntIvtlgiR8fYpg0u2qS3-S9gb4jM0eGFSNE8hIP2XBRr-ijWpg0ZeQOtZbK7LtRinxtbBjH0HtYtJmTlaKs6w'
-    }
-    try {
-        const response =fetch('http://localhost:8080/Users',{
-          method: "GET", 
-          headers:myheader
-        }).then(response=>{
-            if(response.status===200){
-                const json =response.json();
-                console.log('Success:', JSON.stringify(json)); 
-            }
-            });       
-      } catch (error) {
-        console.error('Error in hitting auth Api:', error);
-      }
-    if(this.props.name){
-        const user={
-            index:this.state.users.length+1,
-            fname:this.props.name,
-            email:this.props.email,
-            id:this.state.users.length+1,
-            actions:""
         }
-        let a=this.state.users.slice();
-        let arrind=this.state.users.length+1;
-        a[arrind]=user;
-        console.log(a)
-        //this.setState({users:a});
     }
-        
-    if(this.state.userform){
-        return(
+    /*
+    */
+    componentDidMount() {
+        // console.log(this.props.token);
+        // console.log("fetching the userList from DB");
+        try {
+            const response = fetch('http://localhost:8080/Users', {
+                method: "GET", // or 'PUT',
+                // data can be `string` or {object}!
+                headers: {
+                    'Authorization':this.props.token,
+                    'Content-Type': 'application/json',
+                    "access-control-allow-origin" : "*",
+                }
+            }).then(response => {
+                if (response.status === 200) {
+                    console.log('fetched details from server')
+                }
+                return response.json();          
+            }).then(data=>{
+                // console.log(data);
+                // const userdata=JSON.parse(data);
+                this.setState({users:data});
+                // console.log(this.state.users);
+            });
+        } catch (error) {
+            console.error('Error while fetching the users:', error);
+        }
+    }
+    adduser = (e) => {
+        this.setState({ userform: true });
+    }  
+    render() {
+        if (this.props.name) {
+            const user = {
+                index: this.state.users.length + 1,
+                fname: this.props.name,
+                email: this.props.email,
+                id: this.state.users.length + 1,
+                actions: ""
+            }
+            let a = this.state.users.slice();
+            let arrind = this.state.users.length + 1;
+            a[arrind] = user;
+            console.log(a)
+            //this.setState({users:a});
+        }
+
+        if (this.state.userform) {
+            return (
+                <div>
+                    <Userform token={this.state.token}/>
+                </div>
+            );
+        }
+        return (
+
             <div>
-                <Userform />
+                <ReactTable
+                    columns={this.state.columns}
+                    data={this.state.users}
+                    defaultPageSize={5}
+                >
+                </ReactTable>
+                <button onClick={this.adduser}>Add User</button>
             </div>
         );
     }
-    return(
-        
-        <div>
-            <ReactTable
-            columns={this.state.columns}
-            data={this.state.users}
-            defaultPageSize={5}
-            >
-            </ReactTable>
-            <button onClick={this.adduser}>Add User</button>
-        </div>
-    );
-}}
+}
 export default Users;  
