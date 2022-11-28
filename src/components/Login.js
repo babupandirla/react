@@ -56,12 +56,10 @@ class Login extends Component{
 
         return(
             <div className="tc pa5 ma10">
-                <div className="lastinput">
-                    <label>Username:</label>
-                    <input type="text" placeholder="Enter Your Email id" id="username" onBlur={this.setemail}/>
-                    <br></br>
-                    <br></br>
-                    <label>Password:</label>
+                <div className="lastinput" >
+                    <label className="ma1">Username:</label>
+                    <input type="text" placeholder="Enter Your Email id" id="username" onBlur={this.setemail}/>  
+                    <label className="ma1">Password:</label>
                     <input type="password" placeholder="Enter Your Password" id="password" onBlur={this.setpass}/>
                 </div>   
                 <br></br>

@@ -49,7 +49,7 @@ class App extends Component {
                 return (
                     <div className="tc">
                         <h1>User List</h1>
-                        <button type="button" onClick={this.logout}>Logout</button>
+                        <button className="ma3" type="button" onClick={this.logout}>Logout</button>
                         <Users token={header} />
                         <button className="ma3" type="button" onClick={this.switchview}>Switch View</button>
                         {/* <Hooks/> */}

@@ -2,7 +2,8 @@
 import React, { Component } from 'react'
 import ReactTable from "react-table";
 import "react-table/react-table.css";
-import Userform from "./Userform"
+import Userform from "./Userform";
+import Loading from './components/Loading';
 
 class Users extends Component {
     constructor(props) {
@@ -66,7 +67,7 @@ class Users extends Component {
                     Cell: props => {
                         return (
                             <div>
-                                <button>Edit</button>&nbsp;
+                                <button onClick={this.editUser}>Edit</button>
                                 <button>Delete</button>
                             </div>
                         )
@@ -79,32 +80,50 @@ class Users extends Component {
     }
     /*
     */
+   editUser=(e)=>{
+
+   }
+   fetchUsers(){
+    try {
+        fetch('http://localhost:8080/Users', {
+           method: "GET", // or 'PUT',
+           // data can be `string` or {object}!
+           headers: {
+               'Authorization':this.props.token,
+               'Content-Type': 'application/json',
+               "access-control-allow-origin" : "*",
+           }
+       }).then(response => {
+           if (response.status === 200) {
+               console.log('fetched details from server')
+           }
+           return response.json();          
+       }).then(data=>{
+           // console.log(data);
+           // const userdata=JSON.parse(data);
+           this.setState({users:data});
+           // console.log(this.state.users);
+       });
+   } catch (error) {
+       console.error('Error while fetching the users:', error);
+   }
+
+   }
     componentDidMount() {
-        // console.log(this.props.token);
-        // console.log("fetching the userList from DB");
-        try {
-            const response = fetch('http://localhost:8080/Users', {
-                method: "GET", // or 'PUT',
-                // data can be `string` or {object}!
-                headers: {
-                    'Authorization':this.props.token,
-                    'Content-Type': 'application/json',
-                    "access-control-allow-origin" : "*",
-                }
-            }).then(response => {
-                if (response.status === 200) {
-                    console.log('fetched details from server')
-                }
-                return response.json();          
-            }).then(data=>{
-                // console.log(data);
-                // const userdata=JSON.parse(data);
-                this.setState({users:data});
-                // console.log(this.state.users);
-            });
-        } catch (error) {
-            console.error('Error while fetching the users:', error);
-        }
+        this.fetchUsers();
+        
+    }
+    componentDidUpdate(prevProps, prevState){
+        if (prevState.users !== this.state.users) {
+            this.setState({users:this.state.users})
+          }
+    }
+    renderTable=(data)=>{
+        // this.setState({users:data})
+        this.setState({ userform: false });
+        setTimeout(()=>{
+            this.setState({users:data});
+        },3000)            
     }
     adduser = (e) => {
         this.setState({ userform: true });
@@ -128,22 +147,31 @@ class Users extends Component {
         if (this.state.userform) {
             return (
                 <div>
-                    <Userform token={this.state.token}/>
+                    <Userform token={this.state.token} renderTable={this.renderTable}/>
                 </div>
             );
         }
-        return (
+        if(this.state.users){
+            return (
+                <div>   
+                    
+                    <ReactTable
+                        columns={this.state.columns}
+                        data={this.state.users}
+                        defaultPageSize={10}
+                    >
+                    </ReactTable>
+                    <button onClick={this.adduser}>Add User</button>
+                </div>
+            );
 
+        }
+        return(
             <div>
-                <ReactTable
-                    columns={this.state.columns}
-                    data={this.state.users}
-                    defaultPageSize={5}
-                >
-                </ReactTable>
-                <button onClick={this.adduser}>Add User</button>
+                <Loading/>
             </div>
-        );
+        )
+        
     }
 }
 export default Users;  

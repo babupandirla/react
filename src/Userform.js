@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
-import Users from './Users';
+// import Users from './Users';
 
 class Userform extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            formfetch: true,
             name: "",
             email: "",
             Username: "",
@@ -22,9 +21,11 @@ class Userform extends Component {
             "fullName": this.state.name,
             "roles": this.state.role,
             "username": this.state.Username
-        }.json();
+        }
+        const body=JSON.stringify(newUser);
+        let data1;
         try {
-            const response = fetch('http://localhost:8080/Register', {
+            fetch('http://localhost:8080/Register', {
                 method: "POST", // or 'PUT',
                 // data can be `string` or {object}!
                 headers: {
@@ -32,20 +33,20 @@ class Userform extends Component {
                     'Content-Type': 'application/json',
                     "access-control-allow-origin": "*",
                 },
-                body: newUser
+                body: body,
             }).then(response => {
                 if (response.status === 200) {
                     console.log('new user added')
                 }
                 return response.json();
             }).then(data => {
-                console.log(data);
+                data1=data;
+                
             });
         } catch (error) {
-            console.error('Error while added the users:', error);
+            console.log('Error while added the users:', error);
         }
-
-        this.setState({ formfetch: false })
+        this.props.renderTable(data1);
     }
     addname = (event) => {
         this.setState({ name: event.target.value })
@@ -63,7 +64,7 @@ class Userform extends Component {
         this.setState({ role: "Role_" + e.target.value }, () => { console.log(this.state) })
     }
     render() {
-        if (this.state.formfetch) {
+    
             return (
                 <form>
                     <div className='flex flex-wrap justify-around ma2'>
@@ -81,10 +82,6 @@ class Userform extends Component {
                 </form>
             );
         }
-        return (
-            <Users token={this.props.token}/>
-        );
 
     }
-}
 export default Userform;
